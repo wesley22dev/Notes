@@ -15,7 +15,12 @@
                     <div class="d-flex justify-content-end align-items-center">
                         <span class="me-3"><i class="fa-solid fa-user-circle fa-lg text-secondary me-3"></i>{{session('user.username')}}
                         </span>
-                        <a href="{{route('logout')}}"  class="btn btn-outline-secondary px-3">
+
+                        <a href="{{ route('deleteAccount', ['id' => session('user.id')]) }}"  class="btn btn-outline-secondary px-3">
+                            Delete User<i class="fa-solid ms-2"></i>
+                        </a>
+
+                        <a href="{{route('logout')}}"  class="btn btn-outline-secondary px-2">
                             Logout<i class="fa-solid fa-arrow-right-from-bracket ms-2"></i>
                         </a>
                     </div>

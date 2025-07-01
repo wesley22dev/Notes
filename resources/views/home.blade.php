@@ -18,8 +18,6 @@
 
             @else
 
-            <!-- temp -->
-            <hr class="my-5">
              
             <!-- notes are available -->
             <div class="d-flex justify-content-end mb-3">

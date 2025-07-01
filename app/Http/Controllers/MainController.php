@@ -18,6 +18,11 @@ class MainController extends Controller
         
         return view('home', ['notes' => $notes]);
     }
+
+    public function create(){
+        return view('create');
+    }
+
     public function newNote(){
         //show new note view
         return view('new_note');
@@ -69,7 +74,10 @@ class MainController extends Controller
         
     }
 
-        public function editNoteSubmit(Request $request){
+    public function editNoteSubmit(Request $request){
+        if (!session('user')) {
+        return redirect('/login');
+        }
         $request->validate(
                 [
                    'text_title' => ['required', 'min:3', 'max:200'],
@@ -106,8 +114,11 @@ class MainController extends Controller
 
      
     }
+    
     public function deleteNote($id){
-        
+        if (!session('user')) {
+        return redirect('/login');
+        }
         $id = Operations::decryptId($id);
 
         $note = Note::find($id);
@@ -118,7 +129,9 @@ class MainController extends Controller
     }
 
     public function deleteNoteConfirm($id){
-
+        if (!session('user')) {
+        return redirect('/login');
+        }
         $id = Operations::decryptId($id);
 
         $note = Note::find($id);
@@ -127,6 +140,39 @@ class MainController extends Controller
 
         return redirect()->route('home');
 
+    }
+
+    public function deleteAccount($id){
+        
+        $userData = session('user');
+
+        if (!$userData) {
+            return redirect('/login')->with('loginError', 'Faça login para continuar.');
+        }
+
+        $user = User::find($userData['id']);
+
+        return view('delete_account', ['user' => $user]);
+    }
+
+    public function deleteUserConfirm($id){
+        if (!session('user')) {
+            return redirect('/login');
+        }
+
+        $id = Operations::decryptId($id);
+
+        $user = User::find($id);
+
+        if ($user) {
+            // Delete all notes from User
+            $user->notes()->delete();
+
+            // Delete User
+            $user->delete();
+        }
+
+        return redirect()->route('logout2');
     }
 
 

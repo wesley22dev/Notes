@@ -14,7 +14,7 @@
                     <!-- form -->
                     <div class="row justify-content-center">
                         <div class="col-md-10 col-12">
-                            <form action="/loginSubmit" method="post">
+                            <form action="/createSubmit" method="post">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="text_username" class="form-label">Username</label>
@@ -33,28 +33,29 @@
                                   @enderror
                                 </div>
                                 <div class="mb-3">
-                                    <button type="submit" class="btn btn-secondary w-100">LOGIN</button>
+                                        <label for="text_password_confirm" class="form-label">Password Confirm</label>
+                                        <input type="password" class="form-control bg-dark text-info" name="text_password_confirm" value="{{old('text_password_confirm')}}">
+                                    {{-- msg errors type 1--}}
+                                    @error('text_password_confirm')
+                                    <div class="text-danger">{{$message}}</div>
+                                    @enderror
+                                </div>
+
+
+                                
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-secondary w-100">CREATE ACCOUNT</button>
                                 </div>
                                 
                             </form>
 
                                 <div class="mb-3">
-                                    <a href="{{route('create')}}" class="btn btn-secondary w-100">CREATE ACCOUNT</a>
+                                    <a href="{{route('home')}}" class="btn btn-secondary w-100">RETURN LOGIN</a>
                                 </div>
                             {{-- invalid login --}}
                             @if(session('loginError'))
                             <div class="alert alert-danger text-center">
                                 {{session('loginError')}}
-                            </div>
-                            @endif
-                            @if (session('success'))
-                            <div class="alert alert-success text-center">
-                                {{ session('success') }}
-                            </div>
-                            @endif
-                            @if (session('delete'))
-                            <div class="alert alert-success text-center">
-                                {{ session('delete') }}
                             </div>
                             @endif
                         </div>
